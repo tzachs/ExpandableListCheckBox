@@ -30,6 +30,17 @@ public class ExpandableListCheckBoxActivity extends ExpandableListActivity {
 
 		m_Items.addEmptyGroup("Group1", false);
 		m_Items.addEmptyGroup("Group2", true);
+		
+		m_Items.addChildToGroup(0, "Child1", true);
+		m_Items.addChildToGroup(0, "Child2", false);
+		
+		MyBaseExpandableListAdapter m_Adapter = new MyBaseExpandableListAdapter(this, m_Items);
+		
+		setListAdapter(m_Adapter);
+		
+		
+		
+		
 
 	}
 
@@ -74,7 +85,7 @@ public class ExpandableListCheckBoxActivity extends ExpandableListActivity {
 			cb.setChecked(m_Items.getChildState(groupPosition,childPosition));
 			cb.setOnCheckedChangeListener(onCheckedChangedChild);
 
-			return cb;
+			return convertView;
 			
 		
 		}
@@ -121,7 +132,7 @@ public class ExpandableListCheckBoxActivity extends ExpandableListActivity {
 			cb.setChecked(m_Items.getGroupState(groupPosition));
 			cb.setOnCheckedChangeListener(onCheckedChangedGroup);
 
-			return cb;
+			return convertView;
 		}
 
 		@Override
@@ -175,6 +186,16 @@ public class ExpandableListCheckBoxActivity extends ExpandableListActivity {
 			m_GroupItemsText = new ArrayList<String>();
 			m_ChildItemsState = new ArrayList<ArrayList<Boolean>>();
 			m_ChildItemsText = new ArrayList<ArrayList<String>>();
+		}
+
+		public void addChildToGroup(int i_GroupId, String i_ChildText, boolean i_ChildState) {
+			//
+			if ( i_GroupId < m_ChildItemsText.size()){
+				m_ChildItemsState.get(i_GroupId).add(i_ChildState);
+				m_ChildItemsText.get(i_GroupId).add(i_ChildText);
+			}
+			
+			
 		}
 
 		public void setChildState(int groupId, int childId, boolean isChecked) {
