@@ -8,6 +8,8 @@ import android.app.ExpandableListActivity;
 import android.content.Context;
 
 import android.os.Bundle;
+
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +17,11 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ExpandableListView;
 
 public class ExpandableListCheckBoxActivity extends ExpandableListActivity {
 	private Items m_Items;
+	private ExpandableListView m_ExpandableList;
 ;
 
 	/** Called when the activity is first created. */
@@ -25,6 +29,11 @@ public class ExpandableListCheckBoxActivity extends ExpandableListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		//
 		super.onCreate(savedInstanceState);
+		
+		
+		
+
+		
 
 		m_Items = new Items();
 
@@ -36,12 +45,26 @@ public class ExpandableListCheckBoxActivity extends ExpandableListActivity {
 		
 		MyBaseExpandableListAdapter m_Adapter = new MyBaseExpandableListAdapter(this, m_Items);
 		
-		setListAdapter(m_Adapter);
+		
+		m_ExpandableList = getExpandableListView();
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int width = metrics.widthPixels;
+        //this code for adjusting the group indicator into right side of the view
+        m_ExpandableList.setIndicatorBounds(width - GetDipsFromPixel(50), width - GetDipsFromPixel(10));
+        m_ExpandableList.setAdapter(m_Adapter);
 		
 		
 		
 		
 
+	}
+	
+	public int GetDipsFromPixel(float pixels) {
+		// Get the screen's density scale
+		final float scale = getResources().getDisplayMetrics().density;
+		// Convert the dps to pixels, based on density scale
+		return (int) (pixels * scale + 0.5f);
 	}
 
 	
